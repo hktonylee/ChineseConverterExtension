@@ -67,8 +67,13 @@ function main() {
   run('zip', ['-r', ZIP_PATH, '.'], { cwd: DIST_DIR });
 
   const packArgs = [`--pack-extension=${DIST_DIR}`, '--no-message-box'];
-  if (fs.existsSync(PACK_KEY_PATH)) {
-    packArgs.push(`--pack-extension-key=${PACK_KEY_PATH}`);
+  const configuredKey = process.env.EXTENSION_KEY_PATH
+    ? path.resolve(process.env.EXTENSION_KEY_PATH)
+    : null;
+  const keyCandidates = [configuredKey, PACK_KEY_PATH].filter(Boolean);
+  const selectedKey = keyCandidates.find((candidate) => fs.existsSync(candidate));
+  if (selectedKey) {
+    packArgs.push(`--pack-extension-key=${selectedKey}`);
   }
 
   run(chromeBinary, packArgs);
