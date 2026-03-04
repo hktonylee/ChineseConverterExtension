@@ -1,0 +1,20 @@
+{
+  "name": "chineseconverterchromeextension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test",
+    "build": "node scripts/build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "opencc-js": "^1.0.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.3"
+  }
+}
