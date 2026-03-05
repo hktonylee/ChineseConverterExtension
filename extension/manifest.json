@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "簡體轉繁體中文轉換器",
+  "name": "繁中小幫手",
   "version": "1.0.0",
   "description": "在頁面載入與動態內容更新時，將簡體中文轉換為繁體中文。",
   "permissions": ["storage", "tabs"],
