@@ -34,6 +34,36 @@
     return false;
   }
 
+  const HAN_CHAR_PATTERN = /\p{Script=Han}/u;
+  const MIN_CHANGED_HAN_RATIO = 0.05;
+
+  function shouldApplyConvertedText(original, converted) {
+    if (typeof original !== 'string' || typeof converted !== 'string' || original === converted) {
+      return false;
+    }
+
+    let hanCount = 0;
+    let changedHanCount = 0;
+
+    for (let index = 0; index < original.length; index += 1) {
+      const originalChar = original[index];
+      const convertedChar = converted[index];
+
+      if (HAN_CHAR_PATTERN.test(originalChar)) {
+        hanCount += 1;
+        if (originalChar !== convertedChar) {
+          changedHanCount += 1;
+        }
+      }
+    }
+
+    if (hanCount === 0) {
+      return false;
+    }
+
+    return changedHanCount / hanCount >= MIN_CHANGED_HAN_RATIO;
+  }
+
   if (!window.OpenCC || typeof window.OpenCC.Converter !== 'function') {
     console.error('[OpenCC Extension] OpenCC library not available.');
     return;
@@ -59,7 +89,7 @@
     }
 
     const converted = converter(original);
-    if (converted !== original) {
+    if (shouldApplyConvertedText(original, converted)) {
       textNode.nodeValue = converted;
     }
   }

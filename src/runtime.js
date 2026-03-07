@@ -1,4 +1,5 @@
 const OpenCC = require('opencc-js');
+const { createTextConverter } = require('./converter-core');
 
 const DISABLED_ORIGINS_KEY = 'disabledOrigins';
 const EXCLUDED_TAGS = new Set([
@@ -179,6 +180,7 @@ function initContentScript() {
   }
 
   const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
+  const convertText = createTextConverter(converter);
 
   let observer = null;
   let isEnabled = true;
@@ -198,7 +200,7 @@ function initContentScript() {
       return;
     }
 
-    const converted = converter(original);
+    const converted = convertText(original);
     if (converted !== original) {
       textNode.nodeValue = converted;
     }
