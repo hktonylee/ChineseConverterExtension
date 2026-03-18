@@ -37,6 +37,20 @@
   const HAN_CHAR_PATTERN = /\p{Script=Han}/u;
   const MIN_CHANGED_HAN_RATIO = 0.05;
 
+  function hasHanCharacters(text) {
+    if (typeof text !== 'string' || text.length === 0) {
+      return false;
+    }
+
+    for (const char of text) {
+      if (HAN_CHAR_PATTERN.test(char)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function shouldApplyConvertedText(original, converted) {
     if (typeof original !== 'string' || typeof converted !== 'string' || original === converted) {
       return false;
@@ -85,6 +99,10 @@
 
     const original = textNode.nodeValue;
     if (!original || !original.trim()) {
+      return;
+    }
+
+    if (!hasHanCharacters(original)) {
       return;
     }
 

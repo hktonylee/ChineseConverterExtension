@@ -46,6 +46,10 @@ function countHanCharacters(text) {
   return count;
 }
 
+function hasHanCharacters(text) {
+  return countHanCharacters(text) > 0;
+}
+
 function countChangedHanCharacters(original, converted) {
   if (typeof original !== 'string' || typeof converted !== 'string') {
     return 0;
@@ -95,6 +99,10 @@ function createTextConverter(convert) {
 
   return function convertText(text) {
     if (typeof text !== 'string' || text.length === 0) {
+      return text;
+    }
+
+    if (!hasHanCharacters(text)) {
       return text;
     }
 

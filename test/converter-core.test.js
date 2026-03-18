@@ -12,6 +12,18 @@ test('createTextConverter applies provided converter to text', () => {
   assert.equal(converter('我会说汉语'), '我会说漢語');
 });
 
+test('createTextConverter skips conversion when text has no Han characters', () => {
+  let calls = 0;
+  const converter = createTextConverter((input) => {
+    calls += 1;
+    return input.toUpperCase();
+  });
+
+  const original = 'hello world 123';
+  assert.equal(converter(original), original);
+  assert.equal(calls, 0);
+});
+
 test('createTextConverter keeps original when fewer than 5% of Han chars changed', () => {
   const converter = createTextConverter((input) => input.replace('发', '發'));
   const original = `${'繁'.repeat(20)}发`; // 21 Han chars total; 1 changed => 4.76% (<5%)
