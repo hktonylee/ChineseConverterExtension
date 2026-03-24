@@ -35,7 +35,7 @@
   }
 
   const HAN_CHAR_PATTERN = /\p{Script=Han}/u;
-  const MIN_CHANGED_HAN_RATIO = 0.1;
+  const MIN_CHANGED_HAN_RATIO = 0.15;
 
   function hasHanCharacters(text) {
     if (typeof text !== 'string' || text.length === 0) {
