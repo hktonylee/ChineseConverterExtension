@@ -30,7 +30,13 @@ test('createTextConverter keeps original when fewer than 5% of Han chars changed
   assert.equal(converter(original), original);
 });
 
-test('createTextConverter applies converted text when at least 5% of Han chars changed', () => {
+test('createTextConverter keeps original when fewer than 10% of Han chars changed', () => {
+  const converter = createTextConverter((input) => input.replace('发', '發'));
+  const original = `${'繁'.repeat(10)}发`; // 11 Han chars total; 1 changed => 9.09% (<10%)
+  assert.equal(converter(original), original);
+});
+
+test('createTextConverter applies converted text when at least 10% of Han chars changed', () => {
   const converter = createTextConverter((input) => input.replace('发', '發'));
   assert.equal(converter('发出通知'), '發出通知');
 });
